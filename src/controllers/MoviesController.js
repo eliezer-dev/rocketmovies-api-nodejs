@@ -8,7 +8,7 @@ class MoviesController {
         const {user_id} = req.params
 
         const [user] = await knex("users").where("id", user_id);
-
+        
         if (!user) {
             throw new AppError("usuário não encontrado.");
         }
@@ -107,7 +107,6 @@ class MoviesController {
 }
 
 async function insertTagsIntoNotes(user_id, movieNotes) {
-    console.log(movieNotes)
     const userTags = await knex("movie_tags").where({user_id})
     const notesWithTags = movieNotes.map(note => {
         const notesTags = userTags.filter(tag => {
