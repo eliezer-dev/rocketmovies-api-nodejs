@@ -6,7 +6,7 @@ const sessionsRoutes = require("./sessions.routes")
 const routes = Router();
 const ensureAuthenticated = require("../middlewares/ensureAuthenticated")
 
-routes.use("/users", ensureAuthenticated, usersRoutes);
+routes.use("/users", usersRoutes);
 routes.use("/movies", ensureAuthenticated, moviesRoutes);
 routes.use("/tags", ensureAuthenticated, tagsRoutes);
 routes.use("/sessions", sessionsRoutes);

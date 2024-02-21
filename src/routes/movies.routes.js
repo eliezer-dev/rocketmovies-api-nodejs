@@ -5,7 +5,7 @@ const moviesRoutes = Router();
 const moviesController = new MoviesController;
 
 moviesRoutes.get("/", moviesController.index)
-moviesRoutes.post("/:user_id", moviesController.create)
+moviesRoutes.post("/", moviesController.create)
 moviesRoutes.get("/:note_id", moviesController.show)
 moviesRoutes.delete("/:note_id", moviesController.delete)
 

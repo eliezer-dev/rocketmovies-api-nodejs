@@ -14,19 +14,25 @@ class UsersController {
             throw new AppError("O email " + email + " já foi utilizando em outro cadastro.");
         }
 
-        const user = await knex ("users").insert({
-            name,
-            email,
-            password: hashedpassword,
-            avatar
-        })
+        try {
+            await knex ("users").insert({
+                name,
+                email,
+                password: hashedpassword,
+                avatar
+            })
+        } catch (error) {
+            console.log(error.message)
+            throw new AppError("Erro desconhecido ao inserir o novo usuário.")
+        }
         return res.status(201).json("usuário(a) " + name + " criado com sucesso.");
     }
 
     async update(req,res) {
         const {name, email, password, avatar, oldpassword} = req.body;
-        const {user_id} = req.params;
+        const user_id = req.user.id
         const [userToUpdate] = await knex("users").where("id", user_id );
+        const emailFound = await knex("users").where({email}).first();
 
         if(!userToUpdate) {
             throw new AppError("usuário com id " + user_id + " não encontrado." );
@@ -45,16 +51,23 @@ class UsersController {
             }
                   
         }      
-
+        if (emailFound && emailFound.id !== user_id) {
+            throw new AppError("email já cadastrado em outro usuário." );
+        }
         userToUpdate.name = name ?? userToUpdate.name;
         userToUpdate.email = email ?? userToUpdate.email;
         userToUpdate.avatar = avatar ?? userToUpdate.avatar;
         
-        await knex("users")
-        .update(userToUpdate)
-        .update("updated_at", knex.fn.now())
-        .where("id",user_id);
-
+        try {
+            await knex("users")
+            .update(userToUpdate)
+            .update("updated_at", knex.fn.now())
+            .where("id",user_id);
+        } catch (error) {
+            console.log(error.message)
+            throw new AppError("Erro desconhecido ao atualizar o usuário.")
+        }
+        
         return res.json("usuario atualizado.");
     }
 

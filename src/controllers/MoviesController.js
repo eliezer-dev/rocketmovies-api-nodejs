@@ -5,7 +5,7 @@ const AppError = require("../utils/AppError");
 class MoviesController {
     async create(req,res){
         const {title, description, rating, tags} = req.body;
-        const {user_id} = req.params
+        const user_id = req.user.id
 
         const [user] = await knex("users").where("id", user_id);
         
