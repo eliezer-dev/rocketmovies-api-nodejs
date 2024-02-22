@@ -130,7 +130,7 @@ dist
 .pnp.*
 
 #database
-src\database\database.db 
+src/database/database.db 
 
 #tmp
-tmp\
+tmp/
