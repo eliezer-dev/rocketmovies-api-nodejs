@@ -88,14 +88,26 @@ class MoviesController {
 
     async show(req,res) {
         const {note_id} = req.params;
-        let movieNotes = await knex("movie_notes").where("id", note_id);
-        if (movieNotes.length === 0) {
+        const user_id = req.user.id
+
+        let movie = await knex("movie_notes").where("id", note_id).first();
+        
+        if (!movie) {
             throw new AppError("filme com o id " + note_id + " não encontrado.")
             
         }
-        const user_id = movieNotes[0].user_id
-        movieNotes = await insertTagsIntoNotes(user_id, movieNotes);
-        return res.json(movieNotes);
+
+        const userTags = await knex("movie_tags").where({user_id})
+        const movieTags = userTags.filter(tag => {
+            return tag.note_id == note_id
+        })
+        
+        movie = {
+            ...movie,
+            tags: movieTags
+        }
+
+        return res.json(movie);
     }
 
     async delete(req,res){

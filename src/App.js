@@ -3,6 +3,7 @@ const AppError = require('./utils/AppError')
 const express = require("express");
 const routes = require('./routes');
 const cors = require("cors")
+const uploadConfig = require("./configs/upload");
 
 const app = express();
 app.use(cors())
@@ -24,7 +25,7 @@ app.use ((error, req, res, next) => {
     })
 })
 
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER))
 
 const PORT = 3333;
-
 app.listen(PORT, () => console.log(`Server is running on Port ${PORT}`));

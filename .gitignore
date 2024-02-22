@@ -128,3 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+#database
+src\database\database.db 
+
+#tmp
+tmp\

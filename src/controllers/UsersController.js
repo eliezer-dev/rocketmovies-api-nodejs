@@ -50,9 +50,10 @@ class UsersController {
                 throw new AppError("a senha antiga não corresponde a senha atual.")
             }
                   
-        }      
+        }   
+
         if (emailFound && emailFound.id !== user_id) {
-            throw new AppError("email já cadastrado em outro usuário." );
+            throw new AppError("Email já cadastrado em outro usuário." );
         }
         userToUpdate.name = name ?? userToUpdate.name;
         userToUpdate.email = email ?? userToUpdate.email;
@@ -68,7 +69,7 @@ class UsersController {
             throw new AppError("Erro desconhecido ao atualizar o usuário.")
         }
         
-        return res.json("usuario atualizado.");
+        return res.json("Usuario atualizado.");
     }
 
     async show (req, res) {
