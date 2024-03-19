@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
-    name: "app",
-    script: "./app.js", //atualizar aqui caminho do app.js ou server.js 
+    name: "rocketmovies-api-nodejs",
+    script: "./src/app.js",
     instances: "max",
     env: {
       NODE_ENV: "development",
